@@ -37,40 +37,40 @@ margin–behavior correlation.
 
 ---
 
-## 2. Phase 0–9 schedule
+## 2. Phase 0–9 schedule (previously adopted numbering, restored 2026-10-09)
 
 | phase | name | content | status |
 |---|---|---|---|
-| **0** | Design lock | Blueprint, venue strategy, literature map; dataset generator; G1 go/no-go gate (instrument v2) | ✅ done — G1: 8/8 pretrained GO, bert_random NO-GO |
-| **1** | Naturalistic annotation | T1 retrieval, T2b LLM prescreen + T2 human annotation to 60/form (floor 55); retrieval repair (2026-10-09) | 🔄 **current** — 29/180 accepted |
-| **2** | Export + QC | `annotate.py --export` gates; blind recheck of 20 % of keeps ≥ 48 h later (agreement ≥ 95 %); `--agree` co-annotator report | ⏳ pending Phase 1 gates |
-| **3** | Naturalistic extraction (T3a) | `src/extract.py --items data/naturalistic_items.csv --out features/{model}_natural.npz` | ⏳ |
-| **4** | Naturalistic behavior (T3b) | `src/behavior.py` template-trained head, `--eval-external data/naturalistic_items.csv` | ⏳ |
-| **5** | Naturalistic link (T3c / N1) | `src/rq5_link.py --natural`; N1 decision rules R1–R5; N1 clause pre-registered in `paper_blueprint.md` **before** the first naturalistic pipeline run | ⏳ |
-| **6** | Paper integration | RQ5 naturalistic section + side-by-side figure; limitation sentences (topicalization scarcity, cleft n); appendix (annotation protocol, reject histogram, label balance, agreement, source split) | ⏳ |
-| **7** | Internal review | Reviewer-preemption pass (blueprint §9); FILL placeholders resolved only from verified sources | ⏳ |
-| **8** | Internal submission | **Submit internally by 3 January 2027** — one day ahead of the deadline | ⏳ |
-| **9** | ARR submission | **ACL 2027 via ARR, 4 January 2027** (Kyoto; per `venue_strategy.md`); revision management, no dual submission | ⏳ |
+| **0** | Freeze specification | Design lock: blueprint, venue strategy, literature map; dataset generator (`data/generate_dataset.py` → `items.csv`); G1 go/no-go gate (instrument v2); **measurement specification frozen at `24166f5`** (`MEASUREMENT_SPEC.md`) | ✅ done — G1: 8/8 pretrained GO, bert_random NO-GO; spec frozen |
+| **1** | Naturalistic annotation | T1 retrieval, T2b LLM prescreen + T2 human annotation to 60/form (floor 55); retrieval repair (2026-10-09). **Exit gates:** annotation export (`--export`), co-annotator agreement (`--agree`), blind recheck of 20 % of keeps ≥ 48 h later (`--recheck 36`, agreement ≥ 95 %) — see §3 | 🔄 **current** — 29/180 accepted |
+| **2** | Naturalistic pipeline T3a–c | T3a `src/extract.py --items data/naturalistic_items.csv`; T3b `src/behavior.py --eval-external`; T3c `src/rq5_link.py --natural` → `results/{model}_rq5_natural.json` + `figures/rq5_{model}_natural.png`; N1 decision rules R1–R5; N1 clause pre-registered in `paper_blueprint.md` **before** the first naturalistic pipeline run | ⏳ gated on Phase 1 exit gates |
+| **3** | Evidence audit and uncertainty | Resolve every `[FILL: …]` placeholder in `paper_draft.md` only from verified sources (results JSONs/CSVs, annotation export); verify each `CLAIM_LEDGER.md` entry against its evidence; document uncertainties: cleft candidate deficit / floor invocation if any, attested-topicalization scarcity, probe-relative \(l^*\), non-causal margin–behavior association, single primary annotator + blind QC, pending co-annotator agreement | ⏳ |
+| **4** | Methods and Results | `paper_draft.md` §3–§5 (instrument, measures, results RQ1/RQ6/RQ5 + naturalistic N1 section); figures F1–F6 + `panel_*` + `rq5_*_natural.png`; tables T1–T4 | ⏳ |
+| **5** | Introduction and Related Work | `paper_draft.md` §1–§2 from `computational_ontogenesis_literature_map.md` (four clusters) | ⏳ |
+| **6** | Adversarial review | Reviewer-preemption pass (`paper_blueprint.md` §9): Tenney-decadability attack, probing≠mechanism, templateese/ecological validity, laptop-scale scope; stress-test each claim-ledger entry against its stated limitation | ⏳ |
+| **7** | Revision and manuscript lock | Incorporate review feedback; freeze the manuscript text (no further results changes without a new spec version) | ⏳ |
+| **8** | Reproducibility and submission-compliance audit | Re-run the frozen pipeline end-to-end from `24166f5` on a clean checkout; confirm every reported number regenerates; confirm venue formatting and submission-compliance requirements (ARR / ACL 2027) | ⏳ |
+| **9** | Final buffer; submission | **Internal submission by 3 January 2027**; **official ARR deadline 4 January 2027** (ACL 2027, Kyoto; per `venue_strategy.md`); revision management, no dual submission | ⏳ |
 
-*Note for review: the Phase 0–9 numbering is this board's canonical
-consolidation of blueprint §7 (W1–W6), protocol §3–§5 (T1/T2/T3), and
-`venue_strategy.md`; only "Phase 1 = naturalistic annotation" is stated in the
-project brief. Confirm the numbering at the next project review.*
+*Numbering note (2026-10-09): an earlier draft of this board renumbered the
+phases; the previously adopted schedule above is restored. Annotation export,
+agreement and blind recheck are Phase 1 exit gates (§3), not a replacement
+numbering scheme.*
 
-## 3. Annotation gates (Phase 1 → 2 exit criteria)
+## 3. Phase 1 exit gates (annotation → pipeline)
 
 1. **Target:** 60 accepted per form (cleft, passive, canonical); 180 total.
 2. **Floor:** 55 per form; 165 total — invocation conditions in §1.
-3. **Export gates** (`python data/annotate.py --export`): offsets resolve; all
+3. **Export gate** (`python data/annotate.py --export`): offsets resolve; all
    three spans tokenize under `MAX_LEN = 64` (distilbert fast tokenizer);
    no duplicate texts; ≥ `--min-per-form` keeps per form (default 55).
    Export refuses to write and states the shortfall if gates fail.
-4. **QC:** blind re-annotation of 20 % of keeps after ≥ 48 h
-   (`--recheck 36`); agreement < 95 % ⇒ full re-review of the affected form.
-5. **Agreement:** `--agree` output reported with the pinned co-annotator id
+4. **Agreement gate:** `--agree` output reported with the pinned co-annotator id
    (`data/llm_prescreen.meta.json`); if exact agreement < 70 %, the LLM
    proposals are unreliable → manual mode for the whole pool and the
    prescreen reported as a failed pilot (protocol §6 R5).
+5. **Blind recheck gate:** blind re-annotation of 20 % of keeps after ≥ 48 h
+   (`--recheck 36`); agreement < 95 % ⇒ full re-review of the affected form.
 6. **Human authority:** every analyzed sentence is human-verified; no
    auto-acceptance at any stage.
 
@@ -111,7 +111,7 @@ project brief. Confirm the numbering at the next project review.*
   `natural_annotations.backup.csv` are byte-identical to `24166f5`; no
   annotation or candidate record was lost, duplicated, or rewritten.
 
-## 5. Submission timeline
+## 5. Submission timeline (Phase 9)
 
 - **Internal submission: 3 January 2027** (hard internal gate, one day of
   buffer).
@@ -122,16 +122,15 @@ project brief. Confirm the numbering at the next project review.*
 
 ## 6. Open items (marked for review)
 
-- [ ] Confirm the Phase 0–9 numbering (§2 note).
 - [ ] Cleft candidate yield from shelf v2 is **unknown until a dry run on a
       machine with corpus access** — no counts are claimed. Escalation if v2
       is insufficient: extend the versioned shelf further (documented
       additions only) or re-open the protocol §3 Wikipedia escalation
       (previously tested and rejected); do not lower annotation standards.
 - [ ] Run `annotate.py --agree` and replace the draft's FILL agreement
-      figures with verified numbers.
+      figures with verified numbers (Phase 1 exit gate).
 - [ ] Pre-register the N1 clause in `paper_blueprint.md` before the first
-      naturalistic pipeline run (Phase 2→3 gate).
+      naturalistic pipeline run (Phase 1→2 gate).
 - [ ] Optional local git hygiene: `git config core.whitespace cr-at-eol` so
       `git diff --check` stops flagging the CSVs' native CRLF line endings
       (see §7). Do **not** renormalize the CSVs.

@@ -17,8 +17,12 @@ PENDING may be cited as a result.
 becomes statistically significant at a layer-localized depth: the span-level
 AGENT probe, trained on {active, passive} (P1 fillers), transfers above chance
 to unseen forms {cleft, topical} (P2 fillers) from a first significant layer
-\(l^*\) (`l_struct_span`) onward. The transition is a property of pretraining,
-not of architecture: the random-init control shows no crossover at any layer.
+\(l^*\) (`l_struct_span`) onward. **Pretraining contrast (panel-internal):**
+the transition is observed in the eight pretrained checkpoints of the panel;
+in the single random-initialized control (`bert_random` — same architecture
+and tokenizer, no pretraining) it is not observed at any layer. This contrast
+is consistent with the transition depending on pretraining, but one control
+does not establish a universal causal effect of pretraining.
 
 **Status: SUPPORTED (template instrument).**
 
@@ -48,6 +52,10 @@ not of architecture: the random-init control shows no crossover at any layer.
 - \(l^*\) (`l_struct_span`) and \(l_{\text{struct}}\) are distinct instruments
   (span-level AGENT probe vs sentence-level `label_patient_first` probe);
   both are reported, never conflated (see `MEASUREMENT_SPEC.md` §3).
+- **Pretraining contrast is panel-internal and non-causal by design.** Eight
+  pretrained checkpoints vs one random-initialized BERT control: the control
+  shows the transition is absent without pretraining *within this panel*; it
+  is not a universal causal demonstration of pretraining.
 - Scope: the 9-model panel in `MEASUREMENT_SPEC.md` §2 (66M–355M parameters).
 
 **Falsified if:** a pretrained model fails the G1 gate on rerun with the frozen
@@ -74,8 +82,9 @@ architecture classes, 66M–355M parameters; `ontogenesis/results/*_summary.json
 - **Scoped to the tested architectures.** The claim is profile conservation
   across the tested panel — it is *not* a claim about frontier-scale models,
   all architectures, or endpoint behavior. The random-init control failing
-  the gate is part of the claim (the transition is learned, not
-  architecture-given).
+  the gate is consistent with a learned (pretraining-dependent) component
+  within the tested panel; a single control is not a universal causal
+  demonstration.
 - Relative-depth normalization \(l_{\text{struct}}/(L-1)\) is the comparison
   metric; absolute layer numbers differ across depths.
 

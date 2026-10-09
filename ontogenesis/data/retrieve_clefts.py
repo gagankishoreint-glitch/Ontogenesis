@@ -247,8 +247,9 @@ def main(argv=None):
                  for w in gutenberg_sentences(shelf)]
 
     hits, stats = collect(pool, existing_keys, args.pattern)
-    if args.limit:
-        hits = hits[:args.limit]
+    avail = sum(st["net_new"] for st in stats.values())   # total available
+    if args.limit and args.limit < len(hits):
+        hits = hits[:args.limit]          # planned for append (< available)
 
     print(f"[mode={args.pattern}] [shelf={args.shelf}] "
           f"[source={args.source}] [out={out_path}]")
@@ -267,6 +268,12 @@ def main(argv=None):
     print(f"[total] raw={tot['raw']} post-filter={post_total} "
           f"already-present={tot['already_present']} "
           f"duplicates={tot['duplicates']} net-new={tot['net_new']}")
+    if args.limit:
+        note = (f"[limit] --limit={args.limit}: {avail} net-new available, "
+                f"{len(hits)} planned for append")
+        if len(hits) < avail:
+            note += f" ({avail - len(hits)} held back)"
+        print(note)
     for c, _ in hits[:10]:
         print("  " + " ".join(c))
 

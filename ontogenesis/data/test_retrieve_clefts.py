@@ -282,6 +282,9 @@ class CliEndToEndTests(unittest.TestCase):
                                                      S_ARBTYPE.split()]
         out = self.run_cli("--pattern", "lenient", "--shelf", "v2",
                            "--limit", "1", "--out", str(self.pool))
+        # the report must distinguish total available from planned append
+        self.assertIn("[limit] --limit=1: 2 net-new available, "
+                      "1 planned for append (1 held back)", out)
         self.assertIn("appended 1 lenient clefts", out)
         self.assertEqual(len(read_pool(self.pool)), 2)
 
