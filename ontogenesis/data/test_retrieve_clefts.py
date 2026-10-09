@@ -397,10 +397,9 @@ class CommittedJournalSafetyTests(unittest.TestCase):
                                     newline=""))}
         for cid, n in new.items():
             self.assertEqual(n["source"], csrc[cid])
-        # committed files untouched by the test:
-        self.assertEqual((REPO_DATA / "natural_annotations.csv").stat()
-                         .st_mtime, (REPO_DATA / "natural_annotations.csv")
-                         .stat().st_mtime)
+        # committed files untouched by the test (read-only usage):
+        self.assertTrue((REPO_DATA / "natural_annotations.csv").exists())
+        self.assertEqual(len(orig), 100)
 
 
 if __name__ == "__main__":
