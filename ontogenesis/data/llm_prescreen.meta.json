@@ -1,0 +1,7 @@
+{
+  "backend": "ollama",
+  "model": "qwen2.5:7b-instruct-q4_K_M",
+  "temperature": 0,
+  "n": 560,
+  "date": "2026-10-08"
+}

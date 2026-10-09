@@ -1,0 +1,32 @@
+# Raw corpora — too large for repo, retrieve with retrieve_candidates.py
+ontogenesis/data/corpora/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual envs
+venv/
+.venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Scratch / local artifacts from the agent
+.gemini/

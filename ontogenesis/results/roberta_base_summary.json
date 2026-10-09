@@ -1,0 +1,18 @@
+{
+  "model": "roberta_base",
+  "n_items": 3860,
+  "n_layers": 13,
+  "W_start": 0.019043531268835068,
+  "W_final": 0.011367709375917912,
+  "W_max": 0.019043531268835068,
+  "R_start": 0.07704971180157727,
+  "R_final": 0.30033689834406807,
+  "R_min": 0.030387005694903543,
+  "acc_cross_max": 0.9733333333333334,
+  "acc_cross_at_max_layer": 9,
+  "acc_cross_final": 0.82,
+  "acc_in_final": 1.0,
+  "l_struct": 5,
+  "l_surf": 2,
+  "go_no_go": true
+}

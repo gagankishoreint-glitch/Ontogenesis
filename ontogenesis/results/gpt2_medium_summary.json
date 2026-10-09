@@ -1,0 +1,23 @@
+{
+  "model": "gpt2_medium",
+  "n_items": 3860,
+  "n_layers": 25,
+  "W_start": 0.00275150197558105,
+  "W_final": 0.0034266039729118347,
+  "W_max": 0.027547989040613174,
+  "R_start": 0.056456485996272426,
+  "R_final": 0.5630719742917151,
+  "R_min": 0.05575515227562411,
+  "acc_cross_max": 0.995,
+  "acc_cross_at_max_layer": 17,
+  "acc_cross_final": 0.8483333333333334,
+  "acc_in_final": 0.985,
+  "l_struct": 6,
+  "l_surf": 1,
+  "go_no_go": true,
+  "l_struct_span": 6,
+  "acc_span_cross_max": 0.985,
+  "acc_span_cross_max_layer": 11,
+  "acc_span_cross_final": 0.8533333333333334,
+  "go_no_go_span": true
+}

@@ -1,0 +1,23 @@
+{
+  "model": "distilbert",
+  "n_items": 3860,
+  "n_layers": 7,
+  "W_start": 0.03578023985028267,
+  "W_final": 0.05205647274851799,
+  "W_max": 0.05434853211045265,
+  "R_start": 0.08038062161777705,
+  "R_final": 0.1994598969253951,
+  "R_min": 0.0345844508983761,
+  "acc_cross_max": 0.94,
+  "acc_cross_at_max_layer": 4,
+  "acc_cross_final": 0.8233333333333334,
+  "acc_in_final": 1.0,
+  "l_struct": 3,
+  "l_surf": 5,
+  "go_no_go": true,
+  "l_struct_span": 3,
+  "acc_span_cross_max": 0.9883333333333333,
+  "acc_span_cross_max_layer": 4,
+  "acc_span_cross_final": 0.98,
+  "go_no_go_span": true
+}

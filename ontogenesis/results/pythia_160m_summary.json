@@ -1,0 +1,23 @@
+{
+  "model": "pythia_160m",
+  "n_items": 3860,
+  "n_layers": 13,
+  "W_start": 0.02943309210240841,
+  "W_final": 0.0012257101479917765,
+  "W_max": 0.06354571878910065,
+  "R_start": 0.10200307287412183,
+  "R_final": 0.41263894022604813,
+  "R_min": 1.2559738520446796e-09,
+  "acc_cross_max": 0.905,
+  "acc_cross_at_max_layer": 7,
+  "acc_cross_final": 0.7516666666666667,
+  "acc_in_final": 0.9583333333333334,
+  "l_struct": 5,
+  "l_surf": 12,
+  "go_no_go": true,
+  "l_struct_span": 1,
+  "acc_span_cross_max": 0.9516666666666667,
+  "acc_span_cross_max_layer": 5,
+  "acc_span_cross_final": 0.8816666666666667,
+  "go_no_go_span": true
+}

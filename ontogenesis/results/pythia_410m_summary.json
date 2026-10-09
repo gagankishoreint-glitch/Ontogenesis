@@ -1,0 +1,23 @@
+{
+  "model": "pythia_410m",
+  "n_items": 3860,
+  "n_layers": 25,
+  "W_start": 0.02209475077688694,
+  "W_final": 0.07308878749608994,
+  "W_max": 0.07308878749608994,
+  "R_start": 0.056722756720139274,
+  "R_final": 0.45385588956147854,
+  "R_min": -5.014990304923843e-09,
+  "acc_cross_max": 0.9916666666666667,
+  "acc_cross_at_max_layer": 10,
+  "acc_cross_final": 0.63,
+  "acc_in_final": 0.9466666666666667,
+  "l_struct": 6,
+  "l_surf": 3,
+  "go_no_go": true,
+  "l_struct_span": 1,
+  "acc_span_cross_max": 0.9883333333333333,
+  "acc_span_cross_max_layer": 10,
+  "acc_span_cross_final": 0.8566666666666667,
+  "go_no_go_span": true
+}

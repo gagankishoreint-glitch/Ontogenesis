@@ -1,0 +1,18 @@
+{
+  "model": "bert_base",
+  "n_items": 3860,
+  "n_layers": 13,
+  "W_start": 0.02827424369752407,
+  "W_final": 0.10885544121265411,
+  "W_max": 0.10885544121265411,
+  "R_start": 0.04389986766209302,
+  "R_final": 0.30579991933754286,
+  "R_min": 0.04143963783164067,
+  "acc_cross_max": 0.9166666666666666,
+  "acc_cross_at_max_layer": 8,
+  "acc_cross_final": 0.88,
+  "acc_in_final": 0.9916666666666667,
+  "l_struct": 6,
+  "l_surf": 1,
+  "go_no_go": true
+}

@@ -1,0 +1,21 @@
+{
+  "model": "distilbert",
+  "l_struct_span": 3,
+  "position": {
+    "acc_in": 0.5,
+    "acc_cross": 0.5,
+    "coef": 0.0,
+    "note": "coef~0 (train balanced by slot) -> pairwise ties break to n2-agent"
+  },
+  "bow": {
+    "acc_in": 0.9766666666666667,
+    "acc_cross": 0.5,
+    "n_features": 52
+  },
+  "mlp_at_lstar": {
+    "acc_train_pairwise": 1.0,
+    "acc_in": 1.0,
+    "acc_cross": 0.8166666666666667,
+    "layer": 3
+  }
+}

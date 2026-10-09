@@ -1,0 +1,23 @@
+{
+  "model": "opt_125m",
+  "n_items": 3860,
+  "n_layers": 13,
+  "W_start": 0.013554750941693783,
+  "W_final": 0.15730099380016327,
+  "W_max": 0.15730099380016327,
+  "R_start": 0.05439187716937814,
+  "R_final": 0.452118593042758,
+  "R_min": 0.024411972931788026,
+  "acc_cross_max": 0.9533333333333334,
+  "acc_cross_at_max_layer": 10,
+  "acc_cross_final": 0.8983333333333333,
+  "acc_in_final": 0.965,
+  "l_struct": 6,
+  "l_surf": 1,
+  "go_no_go": true,
+  "l_struct_span": 3,
+  "acc_span_cross_max": 0.985,
+  "acc_span_cross_max_layer": 8,
+  "acc_span_cross_final": 0.945,
+  "go_no_go_span": true
+}
