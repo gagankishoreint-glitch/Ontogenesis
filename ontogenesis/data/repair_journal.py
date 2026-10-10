@@ -8,7 +8,10 @@ re-shows already-decided candidates and --list/--agree undercount.
 Strategy: parse every row position-agnostically (find the status token,
 the form token, the six span integers, the source token anywhere in the
 row), keep the LAST decision per cand_id, and rewrite a clean journal
-under the current column order. A backup is made first.
+under the current column order. A backup is made first.  Rows whose source
+column is empty (written by older annotate.py versions) are backfilled
+from data/natural_candidates.csv by cand_id; existing source values,
+decisions, labels and span boundaries are never altered.
 """
 import csv
 import shutil
@@ -25,6 +28,20 @@ COLS = ["cand_id", "status", "form", "n1a", "n1b", "n2a", "n2b", "pred",
 
 def is_int(x):
     return x.lstrip("-").isdigit()
+
+
+def load_candidate_sources():
+    """cand_id -> source from data/natural_candidates.csv (provenance
+    backfill: journal rows written by older annotate.py versions have an
+    empty source column; the candidate pool is the authoritative record)."""
+    src = {}
+    c = HERE / "natural_candidates.csv"
+    if c.exists():
+        with open(c, newline="") as f:
+            for r in csv.DictReader(f):
+                if r.get("cand_id") and r.get("source"):
+                    src[r["cand_id"]] = r["source"]
+    return src
 
 
 def parse_row(vals, lineno):
@@ -66,6 +83,14 @@ def main():
         if row["cand_id"] not in ok:
             order.append(row["cand_id"])
         ok[row["cand_id"]] = row           # last decision wins
+    # source backfill: restore empty source values from the candidate pool
+    # (by cand_id).  Existing non-empty source values are never overwritten.
+    cand_src = load_candidate_sources()
+    backfilled = 0
+    for row in ok.values():
+        if not row["source"] and row["cand_id"] in cand_src:
+            row["source"] = cand_src[row["cand_id"]]
+            backfilled += 1
     shutil.copy(J, HERE / "natural_annotations.backup.csv")
     with open(J, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=COLS)
@@ -82,6 +107,8 @@ def main():
     print(f"kept={len(kept)} (cleft={by['cleft']} passive={by['passive']} "
           f"canonical={by['canonical']})  "
           f"rejected={sum(r['status'] == 'rejected' for r in ok.values())}")
+    print(f"source backfilled from natural_candidates.csv: {backfilled} "
+          f"row(s)")
     print("backup: data/natural_annotations.backup.csv")
     if len(bad):
         print("inspect dropped rows in the backup before continuing")

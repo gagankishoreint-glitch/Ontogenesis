@@ -189,18 +189,43 @@ def read_brown(root=BROWN_DIR):
     return sents
 
 
-# ------------------------------------------------------------- wikipedia
-def gutenberg_sentences():
+# ------------------------------------------------------------- gutenberg
+# Versioned shelves (reproducible: book = Project Gutenberg eBook id, fetched
+# from https://www.gutenberg.org/cache/epub/{id}/pg{id}.txt).
+#   v1 (2026-10-07, original): 24 curated dialogue-rich novels — the shelf
+#        the committed natural_candidates.csv was retrieved with.
+#   v2 (2026-10-09, Phase-1 cleft retrieval repair): v1 + 8 explicitly listed
+#        additions (dialogue-dense classics with high it-cleft density).
+#        Added as a bounded, documented escalation per protocol §3; no
+#        candidate counts are claimed for v2 — dry runs report actuals.
+GUTENBERG_SHELF_V1 = [
+    1342, 1260, 98, 84, 76, 74, 345, 1661, 11, 55, 36, 1483,
+    730, 16, 45, 768, 1458, 531, 35, 422,   # Austen, Bronte x2,
+    # Dickens x3, Shelley, Twain x2, Stoker, Carroll, Baum, Wells,
+    # Doyle, Anne, Wuthering Heights, Middlemarch, Tess, Time
+    # Machine, Kim
+    46, 105, 158, 2701]           # Christmas Carol, Silas Marner,
+                                  # Emma, Moby Dick
+GUTENBERG_SHELF_V2 = GUTENBERG_SHELF_V1 + [
+    100,    # Shakespeare, Complete Works (dialogue-dense; highest cleft density)
+    43,     # Stevenson, The Strange Case of Dr. Jekyll and Mr. Hyde
+    1023,   # Dickens, Bleak House
+    1184,   # Dumas, The Count of Monte Cristo
+    1400,   # Dickens, Great Expectations
+    2542,   # Ibsen, A Doll's House (dialogue-dense drama)
+    2600,   # Tolstoy, War and Peace
+    5200,   # Kafka, The Metamorphosis
+]
+GUTENBERG_SHELVES = {"v1": GUTENBERG_SHELF_V1, "v2": GUTENBERG_SHELF_V2}
+
+
+def gutenberg_sentences(shelf=None):
     """Curated Gutenberg shelf: narrative fiction with dialogue — where
-    it-clefts and NP-fronting actually occur in attested writing."""
+    it-clefts and NP-fronting actually occur in attested writing.
+    shelf=None -> GUTENBERG_SHELF_V1 (unchanged default behaviour)."""
     import time
-    shelf = [1342, 1260, 98, 84, 76, 74, 345, 1661, 11, 55, 36, 1483,
-             730, 16, 45, 768, 1458, 531, 35, 422,   # Austen, Bronte x2,
-             # Dickens x3, Shelley, Twain x2, Stoker, Carroll, Baum, Wells,
-             # Doyle, Anne, Wuthering Heights, Middlemarch, Tess, Time
-             # Machine, Kim
-             46, 105, 158, 2701]           # Christmas Carol, Silas Marner,
-                                           # Emma, Moby Dick
+    if shelf is None:
+        shelf = GUTENBERG_SHELF_V1
     sents = []
     for gid in shelf:
         url = f"https://www.gutenberg.org/cache/epub/{gid}/pg{gid}.txt"
@@ -508,6 +533,15 @@ def classify(words):
     return "canonical"
 
 
+def norm_key(words):
+    """Documented normalized-text comparison used for ALL candidate dedup
+    (retrieve_candidates.py and retrieve_clefts.py): the token list joined
+    with single spaces and lowercased.  Two sentences are duplicates iff
+    their norm_keys are equal.  Deterministic; no punctuation stripping —
+    punctuation tokens are part of the key, matching the committed pool."""
+    return " ".join(words).lower()
+
+
 def clean(words):
     if not (MIN_W <= len(words) <= MAX_W):
         return None
@@ -568,7 +602,7 @@ def main():
 
     seen, uniq = set(), []
     for w, src in pool:
-        key = " ".join(w).lower()
+        key = norm_key(w)
         if key not in seen:
             seen.add(key)
             uniq.append((w, src))
